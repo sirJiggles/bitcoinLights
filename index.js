@@ -27,7 +27,7 @@ const lights = [1, 2];
 const run = async () => {
   // check if btc is up or down
   let marketData;
-  let btcUp;
+  let btcValue;
   try {
     const marketDataResponse = await fetch(
       'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC',
@@ -39,7 +39,8 @@ const run = async () => {
       }
     );
     marketData = await marketDataResponse.json();
-    btcUp = marketData.data.BTC.quote.USD.percent_change_1h;
+    btcValue = marketData.data.BTC.quote.USD.percent_change_1h;
+    console.log(`BTC percent change 1hr: ${btcValue}`);
   } catch (error) {
     throw new Error(`could not get market data: ${error}`);
   }
@@ -48,7 +49,7 @@ const run = async () => {
   let body = {
     on: true,
   };
-  if (btcUp) {
+  if (btcValue > 0) {
     body = { ...body, ...green };
   } else {
     body = { ...body, ...red };
