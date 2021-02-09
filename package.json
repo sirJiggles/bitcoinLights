@@ -1,0 +1,12 @@
+{
+  "name": "bitcoinLights",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "gareth",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.1"
+  }
+}
