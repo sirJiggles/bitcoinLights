@@ -1,3 +1,5 @@
+// turn the lights from green to red based on a condition
+
 const fetch = require('node-fetch');
 require('dotenv').config();
 
@@ -17,39 +19,19 @@ const green = convertHSL({
   l: 0.7,
 });
 const red = convertHSL({
-  h: 345,
-  l: 0.48,
-  s: 0.82,
+  h: 360,
+  l: 0.46,
+  s: 1,
 });
 
 const lights = [1, 2];
 
-const run = async () => {
-  // check if btc is up or down
-  let marketData;
-  let btcValue;
-  try {
-    const marketDataResponse = await fetch(
-      'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC',
-      {
-        method: 'GET',
-        headers: {
-          'X-CMC_PRO_API_KEY': process.env.COIN_MARKET_CAP_KEY,
-        },
-      }
-    );
-    marketData = await marketDataResponse.json();
-    btcValue = marketData.data.BTC.quote.USD.percent_change_1h;
-    console.log(`BTC percent change 1hr: ${btcValue}`);
-  } catch (error) {
-    throw new Error(`could not get market data: ${error}`);
-  }
-
+const lightItUp = (inTheMoney) => {
   // base object for each light
   let body = {
     on: true,
   };
-  if (btcValue > 0) {
+  if (inTheMoney) {
     body = { ...body, ...green };
   } else {
     body = { ...body, ...red };
@@ -71,4 +53,4 @@ const run = async () => {
   }
 };
 
-run();
+exports.default = lightItUp;
